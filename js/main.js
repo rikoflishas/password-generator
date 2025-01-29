@@ -15,16 +15,46 @@ const randomFunc = {
     symbol: getRandomSymbol
 };
 
+//generate event listen
 generateEl.addEventListener('click', () => {
     
-    const hasNumber = numbersEl.checked;
     const length = +lengthEl.value; // + sign makes it an int. Earnary operator 
     const hasLower = lowercaseEl.checked;
     const hasUpper = uppercaseEl.checked;
+    const hasNumber = numbersEl.checked;
     const hasSymbol = symbolEl.checked;
    
-    console.log(hasLower, hasUpper, hasNumber, hasSymbol);
+    resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
 })
+
+//Generate password function
+function generatePassword(lower, upper, number, symbol, length){
+    //1. Initialize password variable
+    //2. Filter out unchecked types
+    //3. Loop over the length, call generator function for each type
+    //4. Add final password to password variable and return it
+
+    let generatePassword = '';
+    const typesCount = lower + upper + number + symbol;
+
+    console.log('typesCount: ', typesCount);
+
+    //array of types
+    const typesArr = [{lower}, {upper}, {number}, {symbol}].filter
+    (
+        item => Object.values(item)[0] 
+        //whatever that is false is going to be filter out of the array
+    ); 
+
+    console.log('typesArr: ', typesArr);
+
+    //check for none checked, if all is none checked there is no need to generate a password
+    if(typesCount === 0){
+        return '';// return empty string
+    }
+
+    //generating different characters
+}
 
 //Functions of Generator
 
