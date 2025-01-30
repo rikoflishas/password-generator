@@ -25,7 +25,24 @@ generateEl.addEventListener('click', () => {
     const hasSymbol = symbolEl.checked;
    
     resultEl.innerText = generatePassword(hasLower, hasUpper, hasNumber, hasSymbol, length);
-})
+});
+
+//copy password to clipboard
+clipboardEl.addEventListener('click', () => {
+    const textarea = document.createElement('textarea');
+    const password = resultEl.innerText;
+
+    if(!password){ //if there is nothing on password
+        return;
+    }
+
+    textarea.value = password;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');// deprecated, need to find a new way to copy to clipboard
+    textarea.remove();
+    alert('Password has been copied to clipboard');
+});
 
 //Generate password function
 function generatePassword(lower, upper, number, symbol, length){
@@ -34,7 +51,7 @@ function generatePassword(lower, upper, number, symbol, length){
     //3. Loop over the length, call generator function for each type
     //4. Add final password to password variable and return it
 
-    let generatePassword = '';
+    let generatedPassword = '';
     const typesCount = lower + upper + number + symbol;
 
     console.log('typesCount: ', typesCount);
@@ -54,6 +71,16 @@ function generatePassword(lower, upper, number, symbol, length){
     }
 
     //generating different characters
+    for(let i = 0;i < length; i += typesCount){
+        typesArr.forEach(type => {
+            const funcName = Object.keys(type)[0];
+            //console.log('funcName: ', funcName);
+            generatedPassword += randomFunc[funcName]();
+        });//loop through the array
+    }
+
+    const finalPassword = (generatedPassword.slice(0, length));
+    return finalPassword;
 }
 
 //Functions of Generator
